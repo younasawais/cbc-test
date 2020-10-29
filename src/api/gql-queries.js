@@ -1,42 +1,19 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const GET_CITY_BY_NAME = gql`
-  query GetCityByName($query: String = "language:Javascript") {
-    getCityByName(name: REPOSITORY, query: $query, first: 10) {
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-      nodes {
-        ... on Repository {
-          id
-          nameWithOwner
-          description
-          viewerHasStarred
+  query GetCityByName(
+    $name: String! = "Toronto"
+    $country: String
+    $config: ConfigInput
+  ) {
+    getCityByName(name: $name, country: $country, config: $config) {
+      name
+      country
+      weather {
+        temperature {
+          actual
         }
       }
     }
   }
-`
-
-export const STAR_REPOSITORY = gql`
-  mutation AddStar($repositoryId: ID!) {
-    addStar(input: { starrableId: $repositoryId }) {
-      starrable {
-        id
-        viewerHasStarred
-      }
-    }
-  }
-`
-
-export const REMOVE_STAR_REPOSITORY = gql`
-  mutation AddStar($repositoryId: ID!) {
-    removeStar(input: { starrableId: $repositoryId }) {
-      starrable {
-        id
-        viewerHasStarred
-      }
-    }
-  }
-`
+`;
